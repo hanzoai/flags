@@ -1,0 +1,40 @@
+{
+  "name": "@hanzo/flags",
+  "version": "0.1.0",
+  "description": "Feature flags + A/B client for the Hanzo native flags engine (cloud /v1/flags) — zero-dep, browser + node, PostHog-compatible response shapes",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanzoai/universe.git",
+    "directory": "packages/flags"
+  },
+  "keywords": [
+    "feature-flags",
+    "ab-testing",
+    "experiments",
+    "hanzo"
+  ],
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  }
+}

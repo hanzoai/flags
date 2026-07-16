@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hanzo-flags"
+version = "0.1.0"
+description = "Python client for the Hanzo native flags engine (cloud /v1/flags) — zero-dep, PostHog-compatible shapes"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["feature-flags", "ab-testing", "experiments", "hanzo"]
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/flags"
+Documentation = "https://docs.hanzo.ai/docs/flags"
