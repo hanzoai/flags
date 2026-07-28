@@ -63,44 +63,44 @@ type Variant struct {
 // absent (nil) for the is_set / is_not_set operators, and for filters the API
 // built without one.
 type PropertyFilter struct {
-	Key           string          `json:"key"`
-	Value         json.RawMessage `json:"value,omitempty"`
-	Operator      *Operator       `json:"operator,omitempty"`
-	Type          PropertyType    `json:"type"`
-	Negation      *bool           `json:"negation,omitempty"`
-	GroupTypeIndex *int           `json:"group_type_index,omitempty"`
+	Key            string          `json:"key"`
+	Value          json.RawMessage `json:"value,omitempty"`
+	Operator       *Operator       `json:"operator,omitempty"`
+	Type           PropertyType    `json:"type"`
+	Negation       *bool           `json:"negation,omitempty"`
+	GroupTypeIndex *int            `json:"group_type_index,omitempty"`
 }
 
 // Operator is the comparison a property filter applies.
 type Operator string
 
 const (
-	OpExact          Operator = "exact"
-	OpIsNot          Operator = "is_not"
-	OpIcontains      Operator = "icontains"
-	OpNotIcontains   Operator = "not_icontains"
-	OpRegex          Operator = "regex"
-	OpNotRegex       Operator = "not_regex"
-	OpGt             Operator = "gt"
-	OpLt             Operator = "lt"
-	OpGte            Operator = "gte"
-	OpLte            Operator = "lte"
-	OpSemverGt       Operator = "semver_gt"
-	OpSemverGte      Operator = "semver_gte"
-	OpSemverLt       Operator = "semver_lt"
-	OpSemverLte      Operator = "semver_lte"
-	OpSemverEq       Operator = "semver_eq"
-	OpSemverNeq      Operator = "semver_neq"
-	OpSemverTilde    Operator = "semver_tilde"
-	OpSemverCaret    Operator = "semver_caret"
-	OpSemverWildcard Operator = "semver_wildcard"
-	OpIsSet          Operator = "is_set"
-	OpIsNotSet       Operator = "is_not_set"
-	OpIsDateExact    Operator = "is_date_exact"
-	OpIsDateAfter    Operator = "is_date_after"
-	OpIsDateBefore   Operator = "is_date_before"
-	OpIn             Operator = "in"
-	OpNotIn          Operator = "not_in"
+	OpExact           Operator = "exact"
+	OpIsNot           Operator = "is_not"
+	OpIcontains       Operator = "icontains"
+	OpNotIcontains    Operator = "not_icontains"
+	OpRegex           Operator = "regex"
+	OpNotRegex        Operator = "not_regex"
+	OpGt              Operator = "gt"
+	OpLt              Operator = "lt"
+	OpGte             Operator = "gte"
+	OpLte             Operator = "lte"
+	OpSemverGt        Operator = "semver_gt"
+	OpSemverGte       Operator = "semver_gte"
+	OpSemverLt        Operator = "semver_lt"
+	OpSemverLte       Operator = "semver_lte"
+	OpSemverEq        Operator = "semver_eq"
+	OpSemverNeq       Operator = "semver_neq"
+	OpSemverTilde     Operator = "semver_tilde"
+	OpSemverCaret     Operator = "semver_caret"
+	OpSemverWildcard  Operator = "semver_wildcard"
+	OpIsSet           Operator = "is_set"
+	OpIsNotSet        Operator = "is_not_set"
+	OpIsDateExact     Operator = "is_date_exact"
+	OpIsDateAfter     Operator = "is_date_after"
+	OpIsDateBefore    Operator = "is_date_before"
+	OpIn              Operator = "in"
+	OpNotIn           Operator = "not_in"
 	OpFlagEvaluatesTo Operator = "flag_evaluates_to"
 )
 

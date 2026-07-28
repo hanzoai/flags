@@ -108,6 +108,16 @@ func parseIdents(s string, isBuild bool) ([]string, bool) {
 	return parts, true
 }
 
+// identValue reads a numeric identifier, tolerating the leading zeros build
+// metadata is allowed to carry.
+func identValue(s string) uint64 {
+	n, err := strconv.ParseUint(strings.TrimLeft(s, "0"), 10, 64)
+	if err != nil {
+		return 0 // all zeros, or wider than u64
+	}
+	return n
+}
+
 func isNumericIdent(s string) bool {
 	for i := 0; i < len(s); i++ {
 		if s[i] < '0' || s[i] > '9' {
@@ -181,9 +191,7 @@ func cmpIdents(a, b []string) int {
 		an, bn := isNumericIdent(a[i]), isNumericIdent(b[i])
 		switch {
 		case an && bn:
-			x, _ := strconv.ParseUint(strings.TrimLeft(a[i], "0")+"", 10, 64)
-			y, _ := strconv.ParseUint(strings.TrimLeft(b[i], "0")+"", 10, 64)
-			if c := cmpUint(x, y); c != 0 {
+			if c := cmpUint(identValue(a[i]), identValue(b[i])); c != 0 {
 				return c
 			}
 			if c := cmpUint(uint64(len(a[i])), uint64(len(b[i]))); c != 0 {
@@ -214,10 +222,10 @@ const (
 )
 
 type comparator struct {
-	o                op
-	major            uint64
-	minor, patch     *uint64
-	pre              []string
+	o            op
+	major        uint64
+	minor, patch *uint64
+	pre          []string
 }
 
 type versionReq struct{ comparators []comparator }
