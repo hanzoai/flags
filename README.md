@@ -4,13 +4,21 @@
 
 The engine is native to [Hanzo Cloud](https://github.com/hanzoai/cloud): flag
 definitions live in per-org/project SQLite (encrypted at rest), and evaluation
-runs in-process through a stateless Rust evaluator (`cloud/native/flags`,
-embedded over FFI) with **PostHog-compatible semantics** — identical rollout
-hash, property operators, variants, and payload shapes. No external flags
-service, no KV, no network hop on the hot path.
+runs in-process with **PostHog-compatible semantics** — identical rollout hash,
+property operators, variants, and payload shapes. No external flags service, no
+KV, no network hop on the hot path.
 
-This repo is the canonical home of the **client SDKs**. Every client speaks the
-same two calls:
+This repo is the canonical home of the **evaluator** and the **client SDKs**.
+
+The evaluator itself is [`go/`](go/) — pure Go, zero dependencies, importable by
+anyone who wants to decide flags locally instead of over HTTP. It replaced a
+Rust staticlib that cloud linked over cgo; `go/testdata/oracle.json` holds that
+implementation's answer to all 621 cases in the parity table, and
+`go/parity_test.go` is the standing proof the two still agree — identity by
+identity on the rollout hash, and character for character on every rendered
+value.
+
+Every client speaks the same two calls:
 
 | Call | What |
 | --- | --- |
@@ -71,8 +79,22 @@ var cfg struct{ CTA string `json:"cta"` }
 res.Payload("checkout-exp", &cfg) // decode the payload
 ```
 
-Inside **hanzoai/cloud** itself, don't use this client — call the in-process
-seam directly: `featureflags.Bool/Int/String(key)` (zero-copy, no HTTP).
+The same package evaluates locally, with no server involved — this is the engine
+cloud runs:
+
+```go
+res := flags.Evaluate(defs, flags.Context{
+    DistinctID:       "user-42",
+    PersonProperties: map[string]any{"plan": "pro"},
+})
+```
+
+`Evaluate` is pure: same definitions and same context, same answer, on every
+host and in every process. `EvaluateJSON(defs, ctx []byte) ([]byte, error)` is
+the wire-shaped equivalent.
+
+Inside **hanzoai/cloud** itself, don't use the HTTP client — call the in-process
+seam directly: `flags.Bool/Int/String(key)` (zero-copy, no HTTP).
 Source: [`go/`](go/).
 
 ## Python — `hanzo-flags`
