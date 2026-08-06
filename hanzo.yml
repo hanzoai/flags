@@ -1,0 +1,19 @@
+# Feature-flag clients for one engine in four languages. No image; each language
+# publishes to its own registry from a tag.
+#
+# Gate: the Go client's suite — which includes parity_test.go, the fixture-driven
+# check that evaluation agrees with the engine — plus a type check of the
+# TypeScript client. Those are the two halves that can be proven without a live
+# /v1/flags endpoint.
+test:
+  - name: go
+    run: |
+      set -euo pipefail
+      cd go
+      go test ./...
+  - name: typescript
+    run: |
+      set -euo pipefail
+      cd typescript
+      npm install --no-audit --no-fund
+      npm run type-check
